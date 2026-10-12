@@ -3,12 +3,12 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { site, waLink } from "@/data/site";
 
-// NOTE: Text wordmark placeholder — replace with the official Varatect logo file when supplied.
-export function Wordmark({ className = "" }: { className?: string }) {
+// NOTE: Logo cropped from the supplied brand cover — replace /varatect-logo.png with the official file when supplied.
+// The crop is white; on light backgrounds it is inverted via CSS filter (not recoloured artwork).
+export function Wordmark({ className = "", dark = false }: { className?: string; dark?: boolean }) {
   return (
-    <span className={`font-display text-2xl tracking-[0.32em] ${className}`} aria-label="Varatect">
-      VARA<span className="opacity-70">TECT</span>
-    </span>
+    <img src="/varatect-logo.png" alt="Varatect" width={453} height={254}
+      className={`h-9 w-auto md:h-10 ${dark ? "invert" : ""} ${className}`} />
   );
 }
 
@@ -51,7 +51,7 @@ export function Header({ solid = false }: { solid?: boolean }) {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 md:h-20 md:px-10">
-        <Link to="/" aria-label="Varatect home"><Wordmark /></Link>
+        <Link to="/" aria-label="Varatect home"><Wordmark dark={light} /></Link>
         <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
           {site.nav.map((n) => (
             <Link key={n.hash} to="/" hash={n.hash} className="eyebrow opacity-80 transition-opacity hover:opacity-100">
