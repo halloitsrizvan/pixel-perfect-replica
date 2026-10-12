@@ -18,31 +18,56 @@ export function useRevealAll() {
 }
 
 /** Signature "growth" line that draws as the element scrolls through the viewport. */
-export function GrowthLine({ className = "", d }: { className?: string; d: string }) {
+export function GrowthLine({
+  className = "",
+  d,
+  strokeWidth = 2,
+  viewBox = "0 0 100 400",
+}: {
+  className?: string;
+  d: string;
+  strokeWidth?: number;
+  viewBox?: string;
+}) {
   const ref = useRef<SVGSVGElement>(null);
-  const [draw, setDraw] = useState(0);
+  const [draw, setDraw] = useState(1);
+
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-    setDraw(1);
+    if (reduce) {
+      setDraw(0);
+      return;
+    }
+
     const onScroll = () => {
       const el = ref.current;
       if (!el) return;
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.5 + r.height)));
-      setDraw(1 - p);
+
+      // Starts drawing when the top of element enters 85% of viewport
+      // Fully drawn when the top of element reaches 25% of viewport
+      const start = vh * 0.85;
+      const end = vh * 0.25;
+      const progress = Math.min(1, Math.max(0, (start - r.top) / (start - end)));
+      setDraw(1 - progress);
     };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
+
   return (
     <svg
       ref={ref}
       aria-hidden
       className={`growth-line ${className}`}
-      viewBox="0 0 100 400"
+      viewBox={viewBox}
       preserveAspectRatio="none"
       fill="none"
     >
@@ -50,9 +75,15 @@ export function GrowthLine({ className = "", d }: { className?: string; d: strin
         d={d}
         pathLength={1}
         stroke="currentColor"
-        strokeWidth="1"
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
-        style={{ ["--draw" as string]: draw }}
+        style={{
+          strokeDasharray: 1,
+          strokeDashoffset: draw,
+          transition: "stroke-dashoffset 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
+        }}
       />
     </svg>
   );

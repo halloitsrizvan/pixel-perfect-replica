@@ -116,8 +116,9 @@ function Home() {
             </div>
             <div className="relative md:col-span-6 lg:col-span-6 lg:col-start-7">
               <GrowthLine
-                className="pointer-events-none absolute -left-8 top-0 hidden h-full w-16 text-leaf md:block"
-                d="M50 0 C 10 80, 90 140, 50 220 S 20 340, 50 400"
+                className="pointer-events-none absolute -left-10 lg:-left-16 top-0 z-20 hidden h-full w-20 lg:w-28 text-leaf md:block"
+                d="M40 0 C 15 75, 80 135, 45 210 S 15 330, 45 400"
+                strokeWidth={2}
               />
               <div className="reveal aspect-[4/5] overflow-hidden">
                 <img
@@ -258,8 +259,10 @@ function Home() {
             <p className="eyebrow mb-10 text-muted-foreground">A site-first approach</p>
             <ol className="relative">
               <GrowthLine
-                className="absolute left-[7px] top-0 h-full w-px text-leaf"
-                d="M50 0 L50 400"
+                className="pointer-events-none absolute left-[6.5px] top-0 h-full w-[2px] text-leaf"
+                d="M1 0 L1 400"
+                viewBox="0 0 2 400"
+                strokeWidth={2}
               />
               {process.map((s, i) => (
                 <li
