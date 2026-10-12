@@ -12,15 +12,19 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { CONFIG } from "../data/site";
+import { CONFIG, site } from "../data/site";
 
 function NotFoundComponent() {
   return (
     <div className="section-forest flex min-h-screen items-center justify-center px-4">
       <div className="max-w-md text-center">
         <h1 className="display-lg">Page not found</h1>
-        <p className="mt-4 text-sm text-on-forest-muted">The page you're looking for doesn't exist.</p>
-        <Link to="/" className="eyebrow mt-8 inline-block border border-on-forest px-5 py-3">Go home</Link>
+        <p className="mt-4 text-sm text-on-forest-muted">
+          The page you're looking for doesn't exist.
+        </p>
+        <Link to="/" className="eyebrow mt-8 inline-block border border-on-forest px-5 py-3">
+          Go home
+        </Link>
       </div>
     </div>
   );
@@ -36,7 +40,13 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="display-lg">This page didn't load</h1>
-        <button onClick={() => { router.invalidate(); reset(); }} className="eyebrow mt-8 bg-primary px-5 py-3 text-primary-foreground">
+        <button
+          onClick={() => {
+            router.invalidate();
+            reset();
+          }}
+          className="eyebrow mt-8 bg-primary px-5 py-3 text-primary-foreground"
+        >
           Try again
         </button>
       </div>
@@ -76,9 +86,36 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {CONFIG.mode === "production" && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": ["ArchitecturalFirm", "LocalBusiness"],
+                name: site.name,
+                description: site.about,
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: "Thuthiyil House, Malayalapuzha",
+                  addressLocality: "Pathanamthitta",
+                  addressRegion: "Kerala",
+                  postalCode: "689666",
+                  addressCountry: "IN",
+                },
+                telephone: site.phone.label,
+                sameAs: [site.instagram.href],
+                areaServed: ["Kerala", "Dubai"],
+              }),
+            }}
+          />
+        )}
       </head>
       <body>
-        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-ivory focus:px-4 focus:py-2">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-ivory focus:px-4 focus:py-2"
+        >
           Skip to content
         </a>
         {children}

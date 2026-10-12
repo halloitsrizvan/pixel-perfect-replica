@@ -3,7 +3,8 @@ export const CONFIG = {
   preparedBy: "DepoX Studio",
 };
 
-const waText = "Hello Varatect, I would like to discuss an architecture or interior design project.";
+const waText =
+  "Hello Varatect, I would like to discuss an architecture or interior design project.";
 
 export const site = {
   name: "Varatect Architecture Studio",
@@ -16,7 +17,11 @@ export const site = {
   address: "Varatect, Thuthiyil House, Malayalapuzha, Pathanamthitta, Keralam 689666",
   phone: { label: "+91 92072 47305", href: "tel:+919207247305" },
   whatsapp: { label: "+91 95449 80118", number: "919544980118" },
-  instagram: { label: "@varatect", href: "https://www.instagram.com/varatect/", followers: "13K+ on Instagram" },
+  instagram: {
+    label: "@varatect",
+    href: "https://www.instagram.com/varatect/",
+    followers: "13K+ on Instagram",
+  },
   mapsHref:
     "https://www.google.com/maps/search/?api=1&query=" +
     encodeURIComponent("Thuthiyil House, Malayalapuzha, Pathanamthitta, Kerala 689666"),

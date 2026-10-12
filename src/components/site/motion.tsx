@@ -6,7 +6,10 @@ export function useRevealAll() {
     document.documentElement.classList.add("js-ready");
     const els = Array.from(document.querySelectorAll(".reveal, .fade"));
     const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && (e.target.classList.add("is-in"), io.unobserve(e.target))),
+      (entries) =>
+        entries.forEach(
+          (e) => e.isIntersecting && (e.target.classList.add("is-in"), io.unobserve(e.target)),
+        ),
       { rootMargin: "0px 0px -8% 0px" },
     );
     els.forEach((el) => io.observe(el));
@@ -35,8 +38,22 @@ export function GrowthLine({ className = "", d }: { className?: string; d: strin
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <svg ref={ref} aria-hidden className={`growth-line ${className}`} viewBox="0 0 100 400" preserveAspectRatio="none" fill="none">
-      <path d={d} pathLength={1} stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" style={{ ["--draw" as string]: draw }} />
+    <svg
+      ref={ref}
+      aria-hidden
+      className={`growth-line ${className}`}
+      viewBox="0 0 100 400"
+      preserveAspectRatio="none"
+      fill="none"
+    >
+      <path
+        d={d}
+        pathLength={1}
+        stroke="currentColor"
+        strokeWidth="1"
+        vectorEffect="non-scaling-stroke"
+        style={{ ["--draw" as string]: draw }}
+      />
     </svg>
   );
 }
